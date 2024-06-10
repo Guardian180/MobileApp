@@ -14,7 +14,6 @@ class MainPage extends StatefulWidget {
 
 class _MainPage extends State<MainPage> {
   @override
-  @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Builder(builder: (context) {

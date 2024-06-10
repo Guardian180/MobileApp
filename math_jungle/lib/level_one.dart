@@ -20,11 +20,13 @@ class _LevelOneState extends State<LevelOnePage> {
   late Timer time;
   int tick = 0;
   @override
+  //Sets condition for timer update
   void initState() {
     super.initState();
     time = Timer.periodic(const Duration(seconds: 1), updateTick);
   }
 
+//Timer
   void updateTick(Timer timer) {
     setState(() {
       tick++;
@@ -38,6 +40,7 @@ class _LevelOneState extends State<LevelOnePage> {
     });
   }
 
+//numberPad presentation
   List<String> numberPad = [
     '7',
     '8',
@@ -53,7 +56,7 @@ class _LevelOneState extends State<LevelOnePage> {
     '=',
     '0',
   ];
-  // Question
+  // First Question
   int numberA = 1;
   int numberB = 1;
   String operator = "+";
@@ -62,8 +65,7 @@ class _LevelOneState extends State<LevelOnePage> {
   // Question Tracker
   int questionNumber = 0;
 
-  // On Button Tapped
-
+// Operation Answer Method
   bool isAnswerCorrect(String op, int numberA, int numberB, double answer) {
     switch (op) {
       case "+":
@@ -79,6 +81,7 @@ class _LevelOneState extends State<LevelOnePage> {
     }
   }
 
+//playCongratsMethod
   final player = AudioPlayer();
   Future<void> playCongrats() async {
     await player.setSource(AssetSource(
@@ -88,9 +91,18 @@ class _LevelOneState extends State<LevelOnePage> {
     await player.resume();
   }
 
-//check if user is right
+//playKeepOn
+  Future<void> playKeepOn() async {
+    await player.setSource(AssetSource(
+      "sounds/wompWomp.mp3",
+    ));
+    await player.setVolume(0.5);
+    await player.resume();
+  }
+
+// Answer Response
   void checkResult(String op, int numberA, int numberB, double answer) {
-    if (isAnswerCorrect(op, numberA, numberB, answer) && questionNumber < 10) {
+    if (isAnswerCorrect(op, numberA, numberB, answer)) {
       questionNumber++;
       tick = 0;
       playCongrats();
@@ -105,18 +117,19 @@ class _LevelOneState extends State<LevelOnePage> {
         },
       );
     } else {
+      playKeepOn();
       showDialog(
           context: context,
           builder: (context) {
             return ResultMessage(
-                message: 'Sorry Try Again',
+                message: 'Have Another Go',
                 onTap: goBackToQuestion,
                 icon: Icons.rotate_left);
           });
     }
   }
 
-  // ignore: avoid_print
+//Button Commands
   void buttonTapped(String button) {
     setState(
       () {
@@ -148,6 +161,7 @@ class _LevelOneState extends State<LevelOnePage> {
     return symbols.first;
   }
 
+//Fixes Negatives
   void fixNegatives() {
     if (operator == "-" && numberA < numberB) {
       int temp = numberB;
@@ -156,8 +170,9 @@ class _LevelOneState extends State<LevelOnePage> {
     }
   }
 
+//Fix Division
   void fixDevision() {
-    if (numberA % numberB != 0 || numberB == 0) {
+    if (numberB == 0 || numberA % numberB != 0) {
       goToNextQuestion();
     } else {
       print("Devision is valid");
@@ -180,8 +195,6 @@ class _LevelOneState extends State<LevelOnePage> {
     fixNegatives();
     fixDevision();
   }
-
-  //Fix - Questions
 
   //goBackToQuestion
   void goBackToQuestion() {

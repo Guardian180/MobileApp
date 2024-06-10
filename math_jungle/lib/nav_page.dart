@@ -17,6 +17,7 @@ class _StartPageState extends State<StartPage> {
     return Scaffold(
       body: Stack(
         children: [
+          // Contains background
           SizedBox(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
@@ -27,6 +28,7 @@ class _StartPageState extends State<StartPage> {
               ),
             ),
           ),
+          // Contains Tiger
           Expanded(
             child: Positioned(
               left: -50,
@@ -36,6 +38,7 @@ class _StartPageState extends State<StartPage> {
                   child: Image.asset("assets/Tiger.png")),
             ),
           ),
+          //TEXT
           const Column(
             children: [
               Text(
@@ -50,6 +53,7 @@ class _StartPageState extends State<StartPage> {
               ),
             ],
           ),
+          // Buton Titles and function
           Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
@@ -80,6 +84,7 @@ class _StartPageState extends State<StartPage> {
   }
 }
 
+// Button Class
 class CommonNavigationButton extends StatelessWidget {
   const CommonNavigationButton(
       {required this.label, required this.onTap, super.key});
@@ -87,7 +92,6 @@ class CommonNavigationButton extends StatelessWidget {
   final String label;
 
   /// Only return a Widget which has a `Scaffold` since this is with `Navigator.of(context).push`
-  /// - APEALED
   final WidgetBuilder onTap;
 
   @override
