@@ -15,76 +15,61 @@ class _StartPageState extends State<StartPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          // Contains background
-          SizedBox(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            child: FittedBox(
-              fit: BoxFit.fill,
-              child: Image.asset(
-                "assets/Background1.jpg",
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/Background1.jpg"),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            const Text(
+              "Welcome to the Jungle",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  fontSize: 50,
+                  fontFamily: "Itim",
+                  color: Colors.white,
+                  decoration: TextDecoration.underline,
+                  decorationColor: Colors.white),
+            ),
+            Align(
+              alignment: Alignment.topLeft,
+              child: RotatedBox(
+                quarterTurns: 1,
+                child: Image.asset("assets/Tiger.png"),
               ),
             ),
-          ),
-          // Contains Tiger
-          Expanded(
-            child: Positioned(
-              left: -50,
-              top: 135,
-              child: Transform.rotate(
-                  angle: 90 * 3.14 / 180,
-                  child: Image.asset("assets/Tiger.png")),
+            const Spacer(),
+            const Padding(
+              padding: EdgeInsets.fromLTRB(30, 0, 30, 30),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  CommonNavigationButton(
+                    label: 'Level Zero',
+                    onTap: LevelZeroPage /* Page */ (),
+                  ),
+                  CommonNavigationButton(
+                    label: 'Level One',
+                    onTap: LevelOnePage(),
+                  ),
+                  CommonNavigationButton(
+                    label: 'Level Two',
+                    onTap: LevelTwoPage(),
+                  ),
+                ],
+              ),
             ),
-          ),
-          //TEXT
-          const Column(
-            children: [
-              Text(
-                "Welcome to the Jungle",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontSize: 50,
-                    fontFamily: "Itim",
-                    color: Colors.white,
-                    decoration: TextDecoration.underline,
-                    decorationColor: Colors.white),
-              ),
-            ],
-          ),
-          // Buton Titles and function
-          Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(30),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    CommonNavigationButton(
-                      label: 'Level Zero',
-                      onTap: (context) => const LevelZeroPage /* Page */ (),
-                    ),
-                    CommonNavigationButton(
-                      label: 'Level One',
-                      onTap: (context) => const LevelOnePage(),
-                    ),
-                    CommonNavigationButton(
-                        label: 'Level Two',
-                        onTap: (context) => const LevelTwoPage()),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 }
 
-// Button Class
 class CommonNavigationButton extends StatelessWidget {
   const CommonNavigationButton(
       {required this.label, required this.onTap, super.key});
@@ -92,13 +77,15 @@ class CommonNavigationButton extends StatelessWidget {
   final String label;
 
   /// Only return a Widget which has a `Scaffold` since this is with `Navigator.of(context).push`
-  final WidgetBuilder onTap;
+  /// - APEALED
+  final Widget onTap;
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
-        Navigator.of(context).push(MaterialPageRoute(builder: onTap));
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (context) => onTap));
       },
       style: ElevatedButton.styleFrom(
           backgroundColor: Colors.red,
