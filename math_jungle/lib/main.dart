@@ -38,7 +38,8 @@ class _MainPage extends State<MainPage> {
                   color: Colors.white,
                 ),
               ),
-              // START Button : These lines initalises my buttons functionality, this means that when the button is used it takes you to the nav page
+              // START Button : These lines initalises my buttons functionality,
+              // this means that when the button is used it takes you to the nav page
               Expanded(
                 child: Center(
                   child: ElevatedButton(
