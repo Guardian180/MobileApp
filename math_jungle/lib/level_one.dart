@@ -102,7 +102,7 @@ class _LevelOneState extends State<LevelOnePage> {
 
 // Answer Response
   void checkResult(String op, int numberA, int numberB, double answer) {
-    if (isAnswerCorrect(op, numberA, numberB, answer)) {
+    if (isAnswerCorrect(op, numberA, numberB, answer)){if(questionNumber < 10) {
       questionNumber++;
       tick = 0;
       playCongrats();
