@@ -101,110 +101,6 @@ class _LevelOneState extends State<LevelOnePage> {
     await player.resume();
   }
 
-<<<<<<< HEAD
-=======
-// Answer Response
-  void checkResult(String op, int numberA, int numberB, double answer) {
-    if (isAnswerCorrect(op, numberA, numberB, answer)){if(questionNumber < 10) {
-      questionNumber++;
-      tick = 0;
-      playCongrats();
-      showDialog(
-        context: context,
-        builder: (context) {
-          return ResultMessage(
-            message: 'Correct  ',
-            onTap: goToNextQuestion,
-            icon: Icons.arrow_forward,
-          );
-        },
-      );
-    } else {
-      playKeepOn();
-      showDialog(
-          context: context,
-          builder: (context) {
-            return ResultMessage(
-                message: 'Have Another Go',
-                onTap: goBackToQuestion,
-                icon: Icons.rotate_left);
-          });
-    }
-  }
-
-//Button Commands
-  void buttonTapped(String button) {
-    setState(
-      () {
-        if (button == '=') {
-          //Check if user is correct
-          checkResult(operator, numberA, numberB, double.parse(userAnswer));
-        } else if (button == 'C') {
-          // CLears answer input
-          userAnswer = '';
-        } else if (button == 'DEL') {
-          // Deletes the last user input
-          if (userAnswer.isNotEmpty) {
-            userAnswer = userAnswer.substring(0, userAnswer.length - 1);
-          }
-          // Caps at 3 Numbers
-        } else if (userAnswer.length < 3) {
-          userAnswer += button;
-        }
-      },
-    );
-  }
-
-// Create Random Number
-  var randomNumber = Random();
-  // Create Random Symbol
-  String createRandomSymbol() {
-    var symbols = ['+', '-', '*', '/'];
-    symbols.shuffle();
-    return symbols.first;
-  }
-
-//Fixes Negatives
-  void fixNegatives() {
-    if (operator == "-" && numberA < numberB) {
-      int temp = numberB;
-      numberB = numberA;
-      numberA = temp;
-    }
-  }
-
-//Fix Division
-  void fixDevision() {
-    if (numberB == 0 || numberA % numberB != 0) {
-      goToNextQuestion();
-    } else {
-      print("Devision is valid");
-    }
-  }
-
-  // GoToNextQuestion
-  void goToNextQuestion() {
-    //Dimiss
-    Navigator.of(context).pop();
-    //Value Reset
-    setState(() {
-      userAnswer = '';
-    });
-
-    //New Question
-    numberA = randomNumber.nextInt(12);
-    numberB = randomNumber.nextInt(12);
-    operator = createRandomSymbol();
-    fixNegatives();
-    fixDevision();
-  }
-
-  //goBackToQuestion
-  void goBackToQuestion() {
-    Navigator.of(context).pop();
-  }
-
->>>>>>> ba8c29f724c950c1aab315225855cdf0c8292439
 // goToMainPage
   void goToMainPage() {
     Navigator.push(
@@ -251,170 +147,167 @@ class _LevelOneState extends State<LevelOnePage> {
                       icon: Icons.arrow_forward_sharp);
                 },
               );
-            } else {
-              playKeepOn();
-              showDialog(
-                context: context,
-                builder: (context) {
-                  return ResultMessage(
-                      message: 'Have Another Go',
-                      onTap: goBackToQuestion,
-                      icon: Icons.rotate_left);
-                },
-              );
             }
           }
-
-// Create Random Number
-          var randomNumber = Random();
-          // Create Random Symbol
-          String createRandomSymbol() {
-            var symbols = ['+', '-', '*', '/'];
-            symbols.shuffle();
-            return symbols.first;
-          }
-
-//Fixes Negatives
-          void fixNegatives() {
-            if (operator == "-" && numberA < numberB) {
-              int temp = numberB;
-              numberB = numberA;
-              numberA = temp;
-            }
-          }
-
-//Fix Division
-          void fixDevision() {
-            if (numberB == 0 || numberA % numberB != 0) {
-              goToNextQuestion();
-            } else {
-              print("Devision is valid");
-            }
-          }
-
-          //New Question
-          numberA = randomNumber.nextInt(12);
-          numberB = randomNumber.nextInt(12);
-          operator = createRandomSymbol();
-          fixNegatives();
-          fixDevision();
-        }
-
-        @override
-        Widget build(BuildContext context) {
-          return Scaffold(
-            backgroundColor: Colors.lightGreenAccent,
-            body: Column(
-              children: <Widget>[
-                Expanded(
-                  child: Container(
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: <Widget>[
-                          Container(
-                            padding: const EdgeInsets.all(
-                              25,
-                            ),
-                            alignment: Alignment.centerRight,
-                            child: Text("Level One:  " + tick.toString(),
-                                textAlign: TextAlign.right,
-                                style: timerAndTitle),
-                          ),
-                        ]),
-                  ),
-                ),
-                Expanded(
-                    child: Container(
-                        padding: const EdgeInsets.only(right: 25),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Text(
-                                  questionNumber.toString(),
-                                  textAlign: TextAlign.right,
-                                  style: numberQuestion,
-                                ),
-                                Text(
-                                  "/10",
-                                  style: numberQuestion,
-                                ),
-                              ],
-                            ),
-                          ],
-                        ))),
-                Container(
-                  alignment: Alignment.bottomCenter,
-                  child:
-                      //Question
-                      Text(
-                    numberA.toString() + operator + numberB.toString() + ' = ',
-                    style: const TextStyle(
-                        fontSize: 32, color: Colors.purpleAccent),
-                  ),
-                ),
-                Container(
-                  height: 55,
-                  width: 110,
-                  decoration: BoxDecoration(
-                    color: Colors.deepPurpleAccent,
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                  child: Center(
-                    child: Text(userAnswer, style: basicTextStyle),
-                  ),
-                ),
-                Expanded(
-                  flex: 3,
-                  child: Container(
-                    child: GridView.builder(
-                      itemCount: numberPad.length,
-                      physics: const NeverScrollableScrollPhysics(),
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 4),
-                      itemBuilder: (BuildContext context, int index) {
-                        return MyButton(
-                            child: numberPad[index],
-                            onTap: () {
-                              //Button Commands
-                              void buttonTapped(String button) {
-                                setState(
-                                  () {
-                                    if (button == '=') {
-                                      //Check if user is correct
-                                      checkResult(operator, numberA, numberB,
-                                          double.parse(userAnswer));
-                                    } else if (button == 'C') {
-                                      // CLears answer input
-                                      userAnswer = '';
-                                    } else if (button == 'DEL') {
-                                      // Deletes the last user input
-                                      if (userAnswer.isNotEmpty) {
-                                        userAnswer = userAnswer.substring(
-                                            0, userAnswer.length - 1);
-                                      }
-                                      // Caps at 3 Numbers
-                                    } else if (userAnswer.length < 3) {
-                                      userAnswer += button;
-                                    }
-                                  },
-                                );
-                              }
-
-                              buttonTapped(numberPad[index]);
-                            });
-                      },
-                    ),
-                  ),
-                ),
-              ],
-            ),
+        } else {
+          playKeepOn();
+          showDialog(
+            context: context,
+            builder: (context) {
+              return ResultMessage(
+                  message: 'Have Another Go',
+                  onTap: goBackToQuestion,
+                  icon: Icons.rotate_left);
+            },
           );
         }
       }
+
+// Create Random Number
+      var randomNumber = Random();
+      // Create Random Symbol
+      String createRandomSymbol() {
+        var symbols = ['+', '-', '*', '/'];
+        symbols.shuffle();
+        return symbols.first;
+      }
+
+//Fixes Negatives
+      void fixNegatives() {
+        if (operator == "-" && numberA < numberB) {
+          int temp = numberB;
+          numberB = numberA;
+          numberA = temp;
+        }
+      }
+
+//Fix Division
+      void fixDevision() {
+        if (numberB == 0 || numberA % numberB != 0) {
+          goToNextQuestion();
+        } else {
+          // ignore: avoid_print
+          print("Devision is valid");
+        }
+      }
+
+      //New Question
+      numberA = randomNumber.nextInt(12);
+      numberB = randomNumber.nextInt(12);
+      operator = createRandomSymbol();
+      fixNegatives();
+      fixDevision();
+    }
+
+    @override
+    Widget build(BuildContext context) {
+      return Scaffold(
+        backgroundColor: Colors.lightGreenAccent,
+        body: Column(
+          children: <Widget>[
+            Expanded(
+              // ignore: avoid_unnecessary_containers
+              child: Container(
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      Container(
+                        padding: const EdgeInsets.all(
+                          25,
+                        ),
+                        alignment: Alignment.centerRight,
+                        child: Text("Level One:  $tick",
+                            textAlign: TextAlign.right, style: timerAndTitle),
+                      ),
+                    ]),
+              ),
+            ),
+            Expanded(
+                child: Container(
+                    padding: const EdgeInsets.only(right: 25),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text(
+                              questionNumber.toString(),
+                              textAlign: TextAlign.right,
+                              style: numberQuestion,
+                            ),
+                            Text(
+                              "/10",
+                              style: numberQuestion,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ))),
+            Container(
+              alignment: Alignment.bottomCenter,
+              child:
+                  //Question
+                  Text(
+                '$numberA$operator$numberB = ',
+                style:
+                    const TextStyle(fontSize: 32, color: Colors.purpleAccent),
+              ),
+            ),
+            Container(
+              height: 55,
+              width: 110,
+              decoration: BoxDecoration(
+                color: Colors.deepPurpleAccent,
+                borderRadius: BorderRadius.circular(4),
+              ),
+              child: Center(
+                child: Text(userAnswer, style: basicTextStyle),
+              ),
+            ),
+            Expanded(
+              flex: 3,
+              // ignore: avoid_unnecessary_containers
+              child: Container(
+                child: GridView.builder(
+                  itemCount: numberPad.length,
+                  physics: const NeverScrollableScrollPhysics(),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 4),
+                  itemBuilder: (BuildContext context, int index) {
+                    return MyButton(
+                        child: numberPad[index],
+                        onTap: () {
+                          var button = numberPad[index];
+                          setState(
+                            () {
+                              if (button == '=') {
+                                //Check if user is correct
+                                checkResult(operator, numberA, numberB,
+                                    double.parse(userAnswer));
+                              } else if (button == 'C') {
+                                // CLears answer input
+                                userAnswer = '';
+                              } else if (button == 'DEL') {
+                                // Deletes the last user input
+                                if (userAnswer.isNotEmpty) {
+                                  userAnswer = userAnswer.substring(
+                                      0, userAnswer.length - 1);
+                                }
+                                // Caps at 3 Numbers
+                              } else if (userAnswer.length < 3) {
+                                userAnswer += button;
+                              }
+                            },
+                          );
+                        });
+                  },
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
     }
   }
 }
