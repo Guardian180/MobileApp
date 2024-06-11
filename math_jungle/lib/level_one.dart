@@ -101,6 +101,110 @@ class _LevelOneState extends State<LevelOnePage> {
     await player.resume();
   }
 
+<<<<<<< HEAD
+=======
+// Answer Response
+  void checkResult(String op, int numberA, int numberB, double answer) {
+    if (isAnswerCorrect(op, numberA, numberB, answer)){if(questionNumber < 10) {
+      questionNumber++;
+      tick = 0;
+      playCongrats();
+      showDialog(
+        context: context,
+        builder: (context) {
+          return ResultMessage(
+            message: 'Correct  ',
+            onTap: goToNextQuestion,
+            icon: Icons.arrow_forward,
+          );
+        },
+      );
+    } else {
+      playKeepOn();
+      showDialog(
+          context: context,
+          builder: (context) {
+            return ResultMessage(
+                message: 'Have Another Go',
+                onTap: goBackToQuestion,
+                icon: Icons.rotate_left);
+          });
+    }
+  }
+
+//Button Commands
+  void buttonTapped(String button) {
+    setState(
+      () {
+        if (button == '=') {
+          //Check if user is correct
+          checkResult(operator, numberA, numberB, double.parse(userAnswer));
+        } else if (button == 'C') {
+          // CLears answer input
+          userAnswer = '';
+        } else if (button == 'DEL') {
+          // Deletes the last user input
+          if (userAnswer.isNotEmpty) {
+            userAnswer = userAnswer.substring(0, userAnswer.length - 1);
+          }
+          // Caps at 3 Numbers
+        } else if (userAnswer.length < 3) {
+          userAnswer += button;
+        }
+      },
+    );
+  }
+
+// Create Random Number
+  var randomNumber = Random();
+  // Create Random Symbol
+  String createRandomSymbol() {
+    var symbols = ['+', '-', '*', '/'];
+    symbols.shuffle();
+    return symbols.first;
+  }
+
+//Fixes Negatives
+  void fixNegatives() {
+    if (operator == "-" && numberA < numberB) {
+      int temp = numberB;
+      numberB = numberA;
+      numberA = temp;
+    }
+  }
+
+//Fix Division
+  void fixDevision() {
+    if (numberB == 0 || numberA % numberB != 0) {
+      goToNextQuestion();
+    } else {
+      print("Devision is valid");
+    }
+  }
+
+  // GoToNextQuestion
+  void goToNextQuestion() {
+    //Dimiss
+    Navigator.of(context).pop();
+    //Value Reset
+    setState(() {
+      userAnswer = '';
+    });
+
+    //New Question
+    numberA = randomNumber.nextInt(12);
+    numberB = randomNumber.nextInt(12);
+    operator = createRandomSymbol();
+    fixNegatives();
+    fixDevision();
+  }
+
+  //goBackToQuestion
+  void goBackToQuestion() {
+    Navigator.of(context).pop();
+  }
+
+>>>>>>> ba8c29f724c950c1aab315225855cdf0c8292439
 // goToMainPage
   void goToMainPage() {
     Navigator.push(
