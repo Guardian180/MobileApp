@@ -51,7 +51,7 @@ class _LevelOneState extends State<LevelOnePage> {
     setState(() {
       tick++;
     });
-    if (tick == 15) {
+    if (tick == 20) {
       time.cancel();
       Navigator.of(context)
           .push(MaterialPageRoute(builder: (BuildContext context) {
