@@ -101,8 +101,6 @@ class _LevelZeroState extends State<LevelZeroPage> {
           },
         );
       }
-
-      // This block should not be nested inside the previous if statement.
       if (questionNumber == 10) {
         showDialog(
           context: context,
@@ -142,24 +140,23 @@ class _LevelZeroState extends State<LevelZeroPage> {
       numberB = numberA;
       numberA = temp;
     }
-
-    // Ensure both numbers are non-zero
+// Both Numbers cannot be 0
     if (numberA == 0) numberA = 1;
     if (numberB == 0) numberB = 1;
   }
 
   void fixDivision() {
     while (operator == '/' && (numberB == 0 || numberA % numberB != 0)) {
-      numberA = Random().nextInt(12) + 1; // Ensuring numberA is at least 1
-      numberB = Random().nextInt(12) + 1; // Ensuring numberB is at least 1
+      numberA = Random().nextInt(12) + 1;
+      numberB = Random().nextInt(12) + 1;
     }
   }
 
   void newQuestion() {
     var randomNumber = Random();
     setState(() {
-      numberA = randomNumber.nextInt(12) + 1; // Ensuring numberA is at least 1
-      numberB = randomNumber.nextInt(12) + 1; // Ensuring numberB is at least 1
+      numberA = randomNumber.nextInt(12) + 1;
+      numberB = randomNumber.nextInt(12) + 1;
       operator = createRandomSymbol();
       fixNegatives();
       fixDivision();
