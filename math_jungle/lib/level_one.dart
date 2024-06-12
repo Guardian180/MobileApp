@@ -120,19 +120,20 @@ class _LevelOneState extends State<LevelOnePage> {
             );
           },
         );
-      } else {
-        if (questionNumber == 10) {
-          showDialog(
-            context: context,
-            builder: (context) {
-              return ResultMessage(
-                message: 'Congratulations',
-                onTap: goToMainPage,
-                icon: Icons.arrow_forward_sharp,
-              );
-            },
-          );
-        }
+      }
+
+      // This block should not be nested inside the previous if statement.
+      if (questionNumber == 10) {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return ResultMessage(
+              message: 'Congratulations',
+              onTap: goToMainPage,
+              icon: Icons.arrow_forward_sharp,
+            );
+          },
+        );
       }
     } else {
       playKeepOn();
@@ -161,19 +162,24 @@ class _LevelOneState extends State<LevelOnePage> {
       numberB = numberA;
       numberA = temp;
     }
+
+    // Ensure both numbers are non-zero
+    if (numberA == 0) numberA = 1;
+    if (numberB == 0) numberB = 1;
   }
 
   void fixDivision() {
-    if (operator == "/" && (numberB == 0 || numberA % numberB != 0)) {
-      newQuestion();
+    while (operator == '/' && (numberB == 0 || numberA % numberB != 0)) {
+      numberA = Random().nextInt(12) + 1; // Ensuring numberA is at least 1
+      numberB = Random().nextInt(12) + 1; // Ensuring numberB is at least 1
     }
   }
 
   void newQuestion() {
     var randomNumber = Random();
     setState(() {
-      numberA = randomNumber.nextInt(12);
-      numberB = randomNumber.nextInt(12);
+      numberA = randomNumber.nextInt(12) + 1; // Ensuring numberA is at least 1
+      numberB = randomNumber.nextInt(12) + 1; // Ensuring numberB is at least 1
       operator = createRandomSymbol();
       fixNegatives();
       fixDivision();
